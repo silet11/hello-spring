@@ -12,11 +12,15 @@ public class DemoProjectApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoProjectApplication.class, args);
-	}
-
-	@GetMapping("/hello")
+    }
+    @GetMapping("/hello")
 	public String hello(@RequestParam(value = "name", defaultValue = "World") String name){
 		return String.format("Hello %s!", name);
+
+	}
+	@GetMapping("/")
+	public String paginaincio(){
+		return String.format("Esta es la página de incio");
 
 	}
 }

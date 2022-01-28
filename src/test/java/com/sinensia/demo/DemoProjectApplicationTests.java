@@ -39,4 +39,11 @@ class DemoProjectApplicationTests {
 		assertThat(restTemplate.getForObject("/hello?name=Raul", String.class))
 				.isEqualTo("Hello Raul!");
 	}
+
+	@Test
+	void canAdd(@Autowired TestRestTemplate restTemplate) {
+		assertThat(restTemplate.getForObject("/add?a=1&b=2", String.class))
+				.isEqualTo("3");
+	}
+
 }

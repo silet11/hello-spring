@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
+
 @SpringBootApplication
 @RestController
 public class DemoProjectApplication {
@@ -21,6 +23,12 @@ public class DemoProjectApplication {
 	@GetMapping("/")
 	public String paginaincio(){
 		return String.format("Esta es la página de incio");
+
+	}
+
+	@GetMapping("/add")
+	public String canAdd(@RequestParam(value = "b", defaultValue = "0") int b, @RequestParam(value = "a", defaultValue = "0") int a){
+		return String.format("%s", a+b);
 
 	}
 }

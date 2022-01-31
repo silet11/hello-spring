@@ -47,36 +47,6 @@ class DemoProjectApplicationTests {
 	}
 
 	@Test
-	void canAdd(@Autowired TestRestTemplate restTemplate) {
-		assertThat(restTemplate.getForObject("/add?a=1&b=2", String.class))
-				.isEqualTo("3");
-	}
-
-	@Test
-	void canAddZero(@Autowired TestRestTemplate restTemplate) {
-		assertThat(restTemplate.getForObject("/add?a=0&b=2", String.class))
-				.isEqualTo("2");
-	}
-
-	@Test
-	void canAddNegative(@Autowired TestRestTemplate restTemplate) {
-		assertThat(restTemplate.getForObject("/add?a=1&b=-2", String.class))
-				.isEqualTo("-1");
-	}
-
-	@Test
-	void canAddNullA(@Autowired TestRestTemplate restTemplate) {
-		assertThat(restTemplate.getForObject("/add?a&b=2", String.class))
-				.isEqualTo("2");
-	}
-
-	@Test
-	void canAddNullB(@Autowired TestRestTemplate restTemplate) {
-		assertThat(restTemplate.getForObject("/add?a=1&b=", String.class))
-				.isEqualTo("1");
-	}
-
-	@Test
 	void helloNames(@Autowired TestRestTemplate restTemplate) {
 		String[] arr = {"Raul","Cami"};
 		for(String name:arr){
@@ -110,61 +80,7 @@ class DemoProjectApplicationTests {
 	}
 
 
-	@Test
-	void canAddFraction(@Autowired TestRestTemplate restTemplate) {
-		assertThat(restTemplate.getForObject("/add?a=1.5&b=2", String.class))
-				.isEqualTo("3.5");
-	}
 
-	@Test
-	void canAddMultiple(@Autowired TestRestTemplate restTemplate) {
-		assertThat(restTemplate.getForObject("/add?a=1&b=2", String.class))
-				.isEqualTo("3");
-		assertThat(restTemplate.getForObject("/add?a=0&b=2", String.class))
-				.isEqualTo("2");
-		assertThat(restTemplate.getForObject("/add?a=1&b=-2", String.class))
-				.isEqualTo("-1");
-		assertThat(restTemplate.getForObject("/add?a=&b=2", String.class))
-				.isEqualTo("2");
-		assertThat(restTemplate.getForObject("/add?a=1.5&b=2", String.class))
-				.isEqualTo("3.5");
-		assertThat(restTemplate.getForObject("/add?a=1&b=", String.class))
-				.isEqualTo("1");
-	}
-
-	@DisplayName("multiple additions")
-	@ParameterizedTest(name="[{index}] {0} + {1} = {2}")
-	@CsvSource({
-			"1,   2,   3",
-			"1,   1,   2",
-			"1.0, 1.0, 2",
-			"1,  -2,  -1",
-			"1.5, 2,   3.5",
-			"1.5, 1.5, 3"
-	})
-	void canAddCsvParametrizedFloat(String a, String b, String expected){
-		assertThat(restTemplate.getForObject("/add?a="+a+"&b="+b, Float.class))
-				.isEqualTo(Float.parseFloat(expected));
-	}
-
-	@Test
-	void canAddExceptionJsonString(){
-		assertThat(restTemplate.getForObject("/add?a=string&b=1", String.class).indexOf("Bad Request"))
-				.isGreaterThan(-1);
-	}
-
-	@Test
-	void canAddFloat(){
-		assertThat(restTemplate.getForObject("/add?a=1.5&b=2", Float.class))
-				.isEqualTo(3.5f);
-	}
-
-	@Test
-	void canAddFloatException(){
-		Exception thrown = assertThrows(RestClientException.class, ()->{
-			restTemplate.getForObject("/add?a=hola&b=2", Float.class);
-		});
-	}
 
 	@Nested
 	@DisplayName("Application Tests")
@@ -182,5 +98,100 @@ class DemoProjectApplicationTests {
 		void appCanAddReturnsFloat() {
 			assertThat(app.add(1.5f, 2f)).isEqualTo(3.5f);
 		}
+	}
+
+	@Nested
+	@DisplayName("Application Add Tests")
+	class appAddTests {
+
+		@Autowired
+		private DemoProjectApplication app;
+
+		@Test
+		void canAddFraction(@Autowired TestRestTemplate restTemplate) {
+			assertThat(restTemplate.getForObject("/add?a=1.5&b=2", String.class))
+					.isEqualTo("3.5");
+		}
+
+		@Test
+		void canAddMultiple(@Autowired TestRestTemplate restTemplate) {
+			assertThat(restTemplate.getForObject("/add?a=1&b=2", String.class))
+					.isEqualTo("3");
+			assertThat(restTemplate.getForObject("/add?a=0&b=2", String.class))
+					.isEqualTo("2");
+			assertThat(restTemplate.getForObject("/add?a=1&b=-2", String.class))
+					.isEqualTo("-1");
+			assertThat(restTemplate.getForObject("/add?a=&b=2", String.class))
+					.isEqualTo("2");
+			assertThat(restTemplate.getForObject("/add?a=1.5&b=2", String.class))
+					.isEqualTo("3.5");
+			assertThat(restTemplate.getForObject("/add?a=1&b=", String.class))
+					.isEqualTo("1");
+		}
+
+		@DisplayName("multiple additions")
+		@ParameterizedTest(name="[{index}] {0} + {1} = {2}")
+		@CsvSource({
+				"1,   2,   3",
+				"1,   1,   2",
+				"1.0, 1.0, 2",
+				"1,  -2,  -1",
+				"1.5, 2,   3.5",
+				"1.5, 1.5, 3"
+		})
+		void canAddCsvParametrizedFloat(String a, String b, String expected){
+			assertThat(restTemplate.getForObject("/add?a="+a+"&b="+b, Float.class))
+					.isEqualTo(Float.parseFloat(expected));
+		}
+
+		@Test
+		void canAddExceptionJsonString(){
+			assertThat(restTemplate.getForObject("/add?a=string&b=1", String.class).indexOf("Bad Request"))
+					.isGreaterThan(-1);
+		}
+
+		@Test
+		void canAddFloat(){
+			assertThat(restTemplate.getForObject("/add?a=1.5&b=2", Float.class))
+					.isEqualTo(3.5f);
+		}
+
+		@Test
+		void canAddFloatException(){
+			Exception thrown = assertThrows(RestClientException.class, ()->{
+				restTemplate.getForObject("/add?a=hola&b=2", Float.class);
+			});
+		}
+
+		@Test
+		void canAdd(@Autowired TestRestTemplate restTemplate) {
+			assertThat(restTemplate.getForObject("/add?a=1&b=2", String.class))
+					.isEqualTo("3");
+		}
+
+		@Test
+		void canAddZero(@Autowired TestRestTemplate restTemplate) {
+			assertThat(restTemplate.getForObject("/add?a=0&b=2", String.class))
+					.isEqualTo("2");
+		}
+
+		@Test
+		void canAddNegative(@Autowired TestRestTemplate restTemplate) {
+			assertThat(restTemplate.getForObject("/add?a=1&b=-2", String.class))
+					.isEqualTo("-1");
+		}
+
+		@Test
+		void canAddNullA(@Autowired TestRestTemplate restTemplate) {
+			assertThat(restTemplate.getForObject("/add?a&b=2", String.class))
+					.isEqualTo("2");
+		}
+
+		@Test
+		void canAddNullB(@Autowired TestRestTemplate restTemplate) {
+			assertThat(restTemplate.getForObject("/add?a=1&b=", String.class))
+					.isEqualTo("1");
+		}
+
 	}
 }

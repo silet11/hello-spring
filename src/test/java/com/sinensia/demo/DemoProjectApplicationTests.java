@@ -2,6 +2,7 @@ package com.sinensia.demo;
 
 import org.assertj.core.util.VisibleForTesting;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -93,7 +94,7 @@ class DemoProjectApplicationTests {
 	}
 
 	@DisplayName("test multiple input values")
-	@ParameterizedTest(name="[{index}] ({arguments}) \"{0}\" -> \"{1}\" ")
+	@ParameterizedTest(name=" {displayName}[{index}] ({arguments}) \"{0}\" -> \"{1}\" ")
 	@CsvSource({
 			"a, Hello a!",
 			"b, Hello b!",
@@ -165,7 +166,21 @@ class DemoProjectApplicationTests {
 		});
 	}
 
+	@Nested
+	@DisplayName("Application Tests")
+	class appTests {
 
+		@Autowired
+		private DemoProjectApplication app;
 
+		@Test
+		void appCanAddReturnsInteger() {
+			assertThat(app.add(1f, 2f)).isEqualTo(3);
+		}
 
+		@Test
+		void appCanAddReturnsFloat() {
+			assertThat(app.add(1.5f, 2f)).isEqualTo(3.5f);
+		}
+	}
 }

@@ -18,6 +18,7 @@ import org.springframework.web.client.RestClientException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -193,5 +194,40 @@ class DemoProjectApplicationTests {
 					.isEqualTo("1");
 		}
 
+		@Test
+		void appCanAddNull() {
+			Exception thrown = assertThrows(NullPointerException.class, () -> {
+				Float ret = (Float) app.add(null, 2f);
+			});
+			assertTrue(thrown.toString().contains("NullPointerException"));
+			//thrown.getMessage().contains("");
+		}
+
 	}
+
+	@Nested
+	class MultiplicationTests{
+
+		@Test
+		void canMultiplyFraction(@Autowired TestRestTemplate restTemplate) {
+			assertThat(restTemplate.getForObject("/multiply?a=1.5&b=2", String.class))
+					.isEqualTo("3");
+		}
+
+		@Test
+		void canMultiplyZero(@Autowired TestRestTemplate restTemplate) {
+			assertThat(restTemplate.getForObject("/multiply?a=0&b=2", String.class))
+					.isEqualTo("0");
+		}
+
+		@Test
+		void canMultiplyException(){
+			Exception thrown = assertThrows(RestClientException.class, ()->{
+				restTemplate.getForObject("/multiply?a=hola&b=2", Float.class);
+			});
+		}
+
+	}
+
+
 }

@@ -252,7 +252,7 @@ class DemoProjectApplicationTests {
 	class SubstractTests {
 
 		@DisplayName("substraction")
-		@ParameterizedTest(name="{displayName} [{index}] {0} * {1} = {2}")
+		@ParameterizedTest(name="{displayName} [{index}] {0} - {1} = {2}")
 		@CsvSource({
 				"1,   2,   -1",
 				"1,   1,   0",

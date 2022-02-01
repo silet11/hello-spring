@@ -206,74 +206,67 @@ class DemoProjectApplicationTests {
 	}
 
 	@Nested
-	class MultiplicationTests{
+	class MultiplicationTests {
 
-		@Test
-		void canMultiplyFraction(@Autowired TestRestTemplate restTemplate) {
-			assertThat(restTemplate.getForObject("/multiply?a=1.5&b=2", String.class))
-					.isEqualTo("3");
-		}
-
-		@Test
-		void canMultiplyZero(@Autowired TestRestTemplate restTemplate) {
-			assertThat(restTemplate.getForObject("/multiply?a=0&b=2", String.class))
-					.isEqualTo("0");
-		}
-
-		@Test
-		void canMultiplyException(){
-			Exception thrown = assertThrows(RestClientException.class, ()->{
-				restTemplate.getForObject("/multiply?a=hola&b=2", Float.class);
-			});
+		@DisplayName("multiplication")
+		@ParameterizedTest(name="{displayName} [{index}] {0} * {1} = {2}")
+		@CsvSource({
+				"1,   2,   2",
+				"1,   1,   1",
+				"1.0, 1.0, 1",
+				"1,  -2,  -2",
+				"1.5, 2,   3",
+				"'',  2,   0",
+				"1.5, 1.5, 2.25"
+		})
+		void canMultiply(String a, String b, String expected) {
+			assertThat(restTemplate.getForObject("/multiply?a="+a+"&b="+b, String.class))
+					.isEqualTo(expected);
 		}
 
 	}
 
 	@Nested
-	class DivisionTests{
-
-		@Test
-		void canDivideFraction(@Autowired TestRestTemplate restTemplate) {
-			assertThat(restTemplate.getForObject("/divide?a=4&b=2", String.class))
-					.isEqualTo("2");
+	class DivideTests {
+		@DisplayName("multiple divisions")
+		@ParameterizedTest(name="{displayName} [{index}] {0} / {1} = {2}")
+		@CsvSource({
+				"10,   2,   5.00",
+				"10,  -1, -10.00",
+				" 1.0, 1.0, 1.00"
+		})
+		void canAddCsvParameterizedFloat(String a, String b, String expected) {
+			assertThat(restTemplate.getForObject("/divide?a="+a+"&b="+b, Float.class))
+					.isEqualTo(Float.parseFloat(expected));
 		}
 
-		@Test
-		void canDivideZero(@Autowired TestRestTemplate restTemplate) {
-			assertThat(restTemplate.getForObject("/divide?a=0&b=2", String.class))
-					.isEqualTo("0");
-		}
-
-		@Test
-		void canDivideException(){
+		/*@Test
+		void divideByZero() {
 			Exception thrown = assertThrows(RestClientException.class, ()->{
-				restTemplate.getForObject("/divide?a=hola&b=2", Float.class);
+				restTemplate.getForObject("/divide?a=10&b=0", Float.class);
 			});
-		}
-
+		}*/
 	}
 
 	@Nested
 	class SubstractTests {
 
-		@Test
-		void canSubstractFraction(@Autowired TestRestTemplate restTemplate) {
-			assertThat(restTemplate.getForObject("/subtract?a=4&b=2", String.class))
-					.isEqualTo("2");
+		@DisplayName("substraction")
+		@ParameterizedTest(name="{displayName} [{index}] {0} * {1} = {2}")
+		@CsvSource({
+				"1,   2,   -1",
+				"1,   1,   0",
+				"1.0, 1.0, 0",
+				"1,  -2,  3",
+				"1.5, 2,   -0.5"
+
+
+		})
+		void canSubstract(String a, String b, String expected) {
+			assertThat(restTemplate.getForObject("/substract?a="+a+"&b="+b, String.class))
+					.isEqualTo(expected);
 		}
 
-		@Test
-		void canSubstractZero(@Autowired TestRestTemplate restTemplate) {
-			assertThat(restTemplate.getForObject("/subtract?a=0&b=2", String.class))
-					.isEqualTo("-2");
-		}
-
-		@Test
-		void canSubstractException() {
-			Exception thrown = assertThrows(RestClientException.class, () -> {
-				restTemplate.getForObject("/subtract?a=hola&b=2", Float.class);
-			});
-		}
 	}
 
 }

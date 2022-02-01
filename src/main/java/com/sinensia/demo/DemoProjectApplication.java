@@ -57,8 +57,8 @@ public class DemoProjectApplication {
 		return Integer.valueOf(product.intValue());
 	}
 
-	@GetMapping("/subtract")
-	public Object subtract(
+	@GetMapping("/substract")
+	public Object substract(
 			@RequestParam(value="a", defaultValue = "0") Float a,
 			@RequestParam(value="b", defaultValue = "0") Float b
 	) {

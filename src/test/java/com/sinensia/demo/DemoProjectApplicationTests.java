@@ -229,5 +229,51 @@ class DemoProjectApplicationTests {
 
 	}
 
+	@Nested
+	class DivisionTests{
+
+		@Test
+		void canDivideFraction(@Autowired TestRestTemplate restTemplate) {
+			assertThat(restTemplate.getForObject("/divide?a=4&b=2", String.class))
+					.isEqualTo("2");
+		}
+
+		@Test
+		void canDivideZero(@Autowired TestRestTemplate restTemplate) {
+			assertThat(restTemplate.getForObject("/divide?a=0&b=2", String.class))
+					.isEqualTo("0");
+		}
+
+		@Test
+		void canDivideException(){
+			Exception thrown = assertThrows(RestClientException.class, ()->{
+				restTemplate.getForObject("/divide?a=hola&b=2", Float.class);
+			});
+		}
+
+	}
+
+	@Nested
+	class SubstractTests {
+
+		@Test
+		void canSubstractFraction(@Autowired TestRestTemplate restTemplate) {
+			assertThat(restTemplate.getForObject("/subtract?a=4&b=2", String.class))
+					.isEqualTo("2");
+		}
+
+		@Test
+		void canSubstractZero(@Autowired TestRestTemplate restTemplate) {
+			assertThat(restTemplate.getForObject("/subtract?a=0&b=2", String.class))
+					.isEqualTo("-2");
+		}
+
+		@Test
+		void canSubstractException() {
+			Exception thrown = assertThrows(RestClientException.class, () -> {
+				restTemplate.getForObject("/subtract?a=hola&b=2", Float.class);
+			});
+		}
+	}
 
 }

@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'jacoco'
+	id 'pmd'
 }
 
 group = 'com.sinensia'
@@ -30,3 +31,7 @@ jacocoTestReport {
 	}
 }
 
+pmd{
+	consoleOutput = true
+	ignoreFailures = true
+}

@@ -1,6 +1,5 @@
 package com.sinensia.demo;
 
-import org.assertj.core.util.VisibleForTesting;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -11,14 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestClientException;
 
-import java.math.BigDecimal;
-
-import static java.math.RoundingMode.HALF_DOWN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -59,7 +52,7 @@ class DemoProjectApplicationTests {
 		}
 	}
 
-	@Autowired TestRestTemplate restTemplate;
+	@Autowired transient TestRestTemplate restTemplate;
 	@ParameterizedTest
 	@ValueSource(strings={"Raul","Cami"})
 	void helloParamNames(String name) {
@@ -90,7 +83,7 @@ class DemoProjectApplicationTests {
 	@DisplayName("Application Tests")
 	class appTests {
 
-		@Autowired
+		@Autowired transient
 		private DemoProjectApplication app;
 
 		@Test
@@ -108,7 +101,7 @@ class DemoProjectApplicationTests {
 	@DisplayName("Application Add Tests")
 	class appAddTests {
 
-		@Autowired
+		@Autowired transient
 		private DemoProjectApplication app;
 
 		@Test

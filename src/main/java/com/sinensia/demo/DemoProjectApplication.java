@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Generated;
+import java.math.BigDecimal;
+
+import static java.math.RoundingMode.HALF_DOWN;
 
 
 @SpringBootApplication
@@ -59,12 +62,12 @@ public class DemoProjectApplication {
 
 	@GetMapping("/substract")
 	public Object substract(
-			@RequestParam(value="a", defaultValue = "0") Float a,
-			@RequestParam(value="b", defaultValue = "0") Float b
+			@RequestParam(value = "a", defaultValue = "0") Float a,
+			@RequestParam(value = "b", defaultValue = "0") Float b
 	) {
 		Float sub = a - b;
 		Float decimals = sub - sub.intValue();
-		if(decimals!=0) {
+		if (decimals != 0) {
 			return sub;
 		}
 		return Integer.valueOf(sub.intValue());
@@ -72,17 +75,27 @@ public class DemoProjectApplication {
 
 	@GetMapping("/divide")
 	public Object divide(
-			@RequestParam(value="a", defaultValue = "0") Float a,
-			@RequestParam(value="b", defaultValue = "0") Float b
+			@RequestParam(value = "a", defaultValue = "0") Float a,
+			@RequestParam(value = "b", defaultValue = "0") Float b
 	) {
 		Float division = a / b;
 		Float decimals = division - division.intValue();
-		if(decimals!=0) {
+		if (decimals != 0) {
 			return division;
 		}
 		return Integer.valueOf(division.intValue());
 	}
 
-
-
+	/*@GetMapping("/divide")
+	public BigDecimal divide(
+			@RequestParam(value = "a", defaultValue = "0") BigDecimal a,
+			@RequestParam(value = "b", defaultValue = "0") BigDecimal b
+	) throws Exception {
+		if (b.equals(BigDecimal.ZERO)) {
+			throw new Exception("Division By zero");
+		}
+		return a.divide(b, 2, HALF_DOWN);
+	}*/
 }
+
+

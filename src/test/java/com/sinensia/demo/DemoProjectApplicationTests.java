@@ -16,6 +16,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestClientException;
 
+import java.math.BigDecimal;
+
+import static java.math.RoundingMode.HALF_DOWN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -246,7 +249,10 @@ class DemoProjectApplicationTests {
 				restTemplate.getForObject("/divide?a=10&b=0", Float.class);
 			});
 		}*/
+
+
 	}
+
 
 	@Nested
 	class SubstractTests {

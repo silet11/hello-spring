@@ -16,6 +16,7 @@ import static java.math.RoundingMode.HALF_DOWN;
 @RestController
 public class DemoProjectApplication {
 
+
 	@Generated(value = "org.springframework.boot")
 	public static void main(String[] args) {
 		SpringApplication.run(DemoProjectApplication.class, args);
@@ -79,6 +80,12 @@ public class DemoProjectApplication {
 			@RequestParam(value="b", defaultValue = "0") BigDecimal b
 	) {
 		return a.divide(b, 2, HALF_DOWN);
+	}
+
+	@GetMapping("/sqrt")
+	public Float sqrt(Float a){
+		float result = (float) Math.sqrt(a);
+		return result;
 	}
 }
 

@@ -270,4 +270,21 @@ class DemoProjectApplicationTests {
 
 	}
 
+	@Nested
+	class SqrtTests {
+
+		@DisplayName("sqrt")
+		@ParameterizedTest(name="{displayName} [{index}] {0} = {1}")
+		@CsvSource({
+				"4,   2.0",
+				"1,   1.0",
+				"144, 12.0"
+		})
+		void sqrt(Float a,Float expected) {
+			assertThat(restTemplate.getForObject("/sqrt?a="+a, Float.class))
+					.isEqualTo(expected);
+		}
+
+	}
+
 }

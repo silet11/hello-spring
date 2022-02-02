@@ -276,7 +276,7 @@ class DemoProjectApplicationTests {
 		@DisplayName("sqrt")
 		@ParameterizedTest(name="{displayName} [{index}] {0} = {1}")
 		@CsvSource({
-				"4,   2.0",
+				"4,   2",
 				"1,   1.0",
 				"144, 12.0"
 		})
